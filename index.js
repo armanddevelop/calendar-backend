@@ -5,10 +5,11 @@ const routerApi = require("./routes");
 const app = express();
 const PORT = process.env.PORT || 4001;
 
-//routes
-
 //public directory
 app.use(express.static("public"));
+
+//read body
+app.use(express.json());
 
 routerApi(app);
 
