@@ -1,8 +1,11 @@
 const dotenv = require("dotenv").config();
 const express = require("express");
 const routerApi = require("./routes");
+const { dbConnection } = require("./db/config");
 //Create server express
 const app = express();
+//connectDataBase
+dbConnection();
 const PORT = process.env.PORT || 4001;
 
 //public directory

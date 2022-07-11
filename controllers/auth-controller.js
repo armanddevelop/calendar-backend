@@ -1,10 +1,7 @@
 const { response } = require("express");
-
 const resp = response;
-
 const registerUser = (req, res = resp) => {
   const { name, email, password } = req.body;
-
   res.status(201).json({
     ok: true,
     message: "register user",
@@ -16,7 +13,8 @@ const registerUser = (req, res = resp) => {
 
 const loginUser = (req, res = resp) => {
   const { email, password } = req.body;
-  res.json({
+
+  res.status(200).json({
     ok: true,
     message: "login user",
     email,
