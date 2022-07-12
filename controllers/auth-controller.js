@@ -1,14 +1,18 @@
 const { response } = require("express");
+const User = require("../models/UserModel");
+const { responseSuccess, responseError } = require("../utils/responseManager");
+const { registerUserDb } = require("./store-auth-controller");
+
 const resp = response;
-const registerUser = (req, res = resp) => {
-  const { name, email, password } = req.body;
-  res.status(201).json({
-    ok: true,
-    message: "register user",
-    name,
-    email,
-    password,
-  });
+const registerUser = async (req, res = resp) => {
+  //const { name, email, password } = req.body;
+  try {
+    const response = await registerUserDb(req.body);
+    return responseSuccess(res, 201, response);
+  } catch (error) {
+    console.error("[errorRegisterUser]: ", error);
+    return responseError(res, 500, "something go wrong try again later");
+  }
 };
 
 const loginUser = (req, res = resp) => {
