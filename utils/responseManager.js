@@ -1,13 +1,13 @@
-const responseSuccess = (res, statusCode, message) => {
+const responseSuccess = (res, statusCode, data) => {
   res.status(statusCode).send({
     ok: true,
-    message,
+    data,
   });
 };
-const responseError = (res, statusCode, message) => {
+const responseError = (res, statusCode, data) => {
   res.status(statusCode).send({
     ok: false,
-    message,
+    data,
   });
 };
 
