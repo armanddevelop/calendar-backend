@@ -25,6 +25,7 @@ const registerUserDb = async (request) => {
     }
   } catch (error) {
     console.error("[errorRegisterUserDb]: ", error);
+    return error;
   }
 };
 const loginUserDb = async (request) => {
@@ -39,7 +40,19 @@ const loginUserDb = async (request) => {
     return { findUser, token };
   } catch (error) {
     console.error("[errorLoginUserDb]: ", error);
+    return error;
+  }
+};
+const generateToken = async (request) => {
+  const { uid, name } = request;
+  try {
+    //generate jsonwbtoken
+    const token = await generateJWT(uid, name);
+    return { token };
+  } catch (error) {
+    console.error("[errorGenerateToken]: ", error);
+    return error;
   }
 };
 
-module.exports = { registerUserDb, loginUserDb };
+module.exports = { registerUserDb, loginUserDb, generateToken };

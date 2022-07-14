@@ -1,6 +1,11 @@
 const { response } = require("express");
+
 const { responseSuccess, responseError } = require("../utils/responseManager");
-const { registerUserDb, loginUserDb } = require("./store-auth-controller");
+const {
+  registerUserDb,
+  loginUserDb,
+  generateToken,
+} = require("./store-auth-controller");
 
 const resp = response;
 const registerUser = async (req, res = resp) => {
@@ -32,11 +37,14 @@ const loginUser = async (req, res = resp) => {
   }
 };
 
-const renewToken = (req, res = resp) => {
-  res.json({
-    ok: true,
-    message: "renew token",
-  });
+const renewToken = async (req, res = resp) => {
+  try {
+    const response = await generateToken(req);
+    return responseSuccess(res, 200, response);
+  } catch (error) {
+    console.error("[errorRenewToken]: ", error);
+    return responseError(res, 500, "something go wrong try again later");
+  }
 };
 
 module.exports = { registerUser, loginUser, renewToken };
