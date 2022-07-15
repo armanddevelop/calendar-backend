@@ -12,47 +12,41 @@ const {
 } = require("../controllers/auth-controller");
 const { validateJWT } = require("../middlewares/valid-jwt");
 const { validateFields } = require("../middlewares/validateFields");
+const validationsMiddlewareUser = [
+  check("name")
+    .notEmpty()
+    .withMessage("The field name is mandatory")
+    .isLength({ min: 5 })
+    .withMessage("The name need to be minimum 5 characteres"),
+  check("email")
+    .notEmpty()
+    .withMessage("The field email is mandatory")
+    .isEmail()
+    .withMessage("The field email must be a valid email"),
+  check("password")
+    .notEmpty()
+    .withMessage("The password is mandatory")
+    .isLength({ min: 6 })
+    .withMessage("The password need to be minimum 5 characteres"),
+  validateFields,
+];
+const validationsMiddlewareLogin = [
+  check("email")
+    .notEmpty()
+    .withMessage("The field email is mandatory")
+    .isEmail()
+    .withMessage("The field email must be a valid email"),
+  check("password")
+    .notEmpty()
+    .withMessage("The password is mandatory")
+    .isLength({ min: 6 })
+    .withMessage("The password need to be minimum 5 characteres"),
+  validateFields,
+];
 
-router.post(
-  "/register/user",
-  [
-    check("name")
-      .notEmpty()
-      .withMessage("The field name is mandatory")
-      .isLength({ min: 5 })
-      .withMessage("The name need to be minimum 5 characteres"),
-    check("email")
-      .notEmpty()
-      .withMessage("The field email is mandatory")
-      .isEmail()
-      .withMessage("The field email must be a valid email"),
-    check("password")
-      .notEmpty()
-      .withMessage("The password is mandatory")
-      .isLength({ min: 6 })
-      .withMessage("The password need to be minimum 5 characteres"),
-    validateFields,
-  ],
-  registerUser
-);
+router.post("/register/user", validationsMiddlewareUser, registerUser);
 
-router.post(
-  "/login",
-  [
-    check("email")
-      .notEmpty()
-      .withMessage("The field email is mandatory")
-      .isEmail()
-      .withMessage("The field email must be a valid email"),
-    check("password")
-      .notEmpty()
-      .withMessage("The password is mandatory")
-      .isLength({ min: 6 })
-      .withMessage("The password need to be minimum 5 characteres"),
-    validateFields,
-  ],
-  loginUser
-);
+router.post("/login", validationsMiddlewareLogin, loginUser);
 
 router.get("/renew/token", [validateJWT], renewToken);
 
