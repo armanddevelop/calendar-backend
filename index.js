@@ -9,7 +9,7 @@ const app = express();
 dbConnection();
 //CORS
 app.use(cors());
-const PORT = process.env.PORT || 4001;
+const PORT = process.env.PORT || 3001;
 
 //public directory
 app.use(express.static("public"));
