@@ -48,7 +48,7 @@ const generateToken = async (request) => {
   try {
     //generate jsonwbtoken
     const token = await generateJWT(uid, name);
-    return { token };
+    return { token, uid, name };
   } catch (error) {
     console.error("[errorGenerateToken]: ", error);
     return error;
